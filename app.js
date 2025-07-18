@@ -1,11 +1,32 @@
 import express from "express"
 import mongoose from "mongoose"
 import adminRoutes from "./routes/admin_routes.js"
+import loginRoutes from "./routes/login_routes.js"
+import userRoutes from "./routes/user_routes.js"
+import MongoStore from "connect-mongo"
+import session from "express-session"
+import { ServerClosedEvent } from "mongodb"
 const app = express()
-
-const dburl="mongodb://127.0.0.1:27017/ecommercebackend"
-
+const dburl="mongodb://127.0.0.1:27017/ecommerce_backend"
 mongoose.connect(dburl).then(()=>{
     console.log("db connected");
     app.listen(3000)
 })
+
+app.use(express.static("public"))
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+app.use(session({
+    secret:"hehehe",
+    resave:false,
+    saveUninitialized:false,
+    store:MongoStore.create({mongoUrl:"mongodb://127.0.0.1:27017/ecommerce_backend"})
+}))
+app.use((req,res,next)=>{
+    res.locals.message=req.session.message
+    delete req.session.message
+    next()
+})
+app.use("/admin",adminRoutes)
+app.use("/login",loginRoutes)
+app.use("/user",userRoutes)
