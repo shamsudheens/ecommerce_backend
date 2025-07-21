@@ -14,7 +14,7 @@ export const login = async(req,res)=>{
         if(!match){
             return res.json({message:"incorrect password"})
         }
-        req.session.user=user
+        req.session.userid=user._id;
         if(user.role==true)
         {
             return res.json({message:"welcome admin...",type:"admin"})

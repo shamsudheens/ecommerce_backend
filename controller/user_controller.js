@@ -1,8 +1,8 @@
 import userModel from "../models/user.js"
 import bcrypt from "bcrypt"
+import { login } from "./login_controller.js";
 
 export const signup = async (req, res) => {
-
     try {
         const { name, phone, email, password } = req.body;
         const salt = 10;
@@ -30,9 +30,48 @@ export const signup = async (req, res) => {
             name, phone, email, password: hashedPassword, image: req.filename
         })
         await user.save()
+        req.session.userid=user._id;
         res.status(200).json({ message: "Submitted succesfully", success: true })
     }
     catch (err) {
         res.json({ message: err.message })
+    }
+}
+
+export const getUserById = async (req,res)=>{
+    try{
+        const userdata= await userModel.findById(req.params.id,{password:0,role:0,status:0,__v:0,_id:0})
+        if(!userdata)
+        {
+            return res.json({message:"user not found"})
+        }
+        return res.json(userdata)
+    }
+    catch(err){
+        res.status(500).json({message:"internal sever error"})
+        console.log(err);
+    }
+}
+
+export const editUser = async (req,res)=>{
+    try{
+        const { name, phone, email, password ,image} = req.body;
+        const data= await userModel.findByIdAndUpdate(req.params.id,{
+            name,
+            email,
+            phone,
+            password,
+            image:req.filename
+        })
+        if(!data)
+        {
+            return res.status(404).json({message:"user not found"})
+        }
+        return res.status(200).json({message:"user updates successfully"})
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(400).json({message:"error occured while update"})
     }
 }
