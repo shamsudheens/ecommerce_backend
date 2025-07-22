@@ -1,6 +1,6 @@
 import { strict } from "assert";
 import mongoose, { mongo } from "mongoose"
-const schema=mongoose.schema;
+const schema=mongoose.Schema;
 const productschema= new schema({
     name:{
         type:String,
@@ -11,7 +11,7 @@ const productschema= new schema({
         require:true
     },
     category:{
-        type:String,
+        type:mongoose.Schema.Types.ObjectId,
         require:true
     },
     description:{

@@ -67,10 +67,41 @@ export const editUser = async (req,res)=>{
         {
             return res.status(404).json({message:"user not found"})
         }
-        return res.status(200).json({message:"user updates successfully"})
+        return res.status(200).json({message:"user updated successfully"})
     }
     catch(err)
     {
         return res.status(400).json({message:"error occured while update"})
+    }
+}
+
+export const logout = async(req,res)=>{
+    req.session.destroy((err)=>{
+        if(err)
+        {
+            return res.status(404).send({message:"logout failed"})
+        }
+        else
+        {
+            return res.status(404).send({message:"logout successfull"})
+        }
+    })
+}
+
+export const deleteUser = async(req,res)=>{
+    try{
+        const data =await userModel.findByIdAndDelete(req.params.id)
+        if(!data)
+        {
+            return res.status(404).json({message:"user not found"})
+        }
+        else
+        {
+            return res.status(200).json({message:"user deleted successfully"})
+        }
+    }
+    catch(err)
+    {
+        return res.status(400).json({message:"Internal Server error"})
     }
 }

@@ -1,5 +1,5 @@
 import express from "express"
-import { signup,getUserById,editUser } from "../controller/user_controller.js"
+import { signup,getUserById,editUser,logout,deleteUser } from "../controller/user_controller.js"
 import multer from "multer"
 const router = express.Router()
 
@@ -29,8 +29,8 @@ router.use("/",(req,res,next)=>{
         return res.status(404).json({message:"Access denied"})
     }
 })
+router.get("/logout",logout)
 router.get("/:id",getUserById)
 router.put("/:id",upload,editUser)
-
-
+router.delete("/:id",deleteUser)
 export default router

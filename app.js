@@ -3,6 +3,8 @@ import mongoose from "mongoose"
 import adminRoutes from "./routes/admin_routes.js"
 import loginRoutes from "./routes/login_routes.js"
 import userRoutes from "./routes/user_routes.js"
+import categoryRoutes from "./routes/category_routes.js"
+import productRoutes from "./routes/product_routes.js"
 import MongoStore from "connect-mongo"
 import session from "express-session"
 import { ServerClosedEvent } from "mongodb"
@@ -30,3 +32,5 @@ app.use((req,res,next)=>{
 app.use("/admin",adminRoutes)
 app.use("/login",loginRoutes)
 app.use("/user",userRoutes)
+app.use("/product",productRoutes)
+app.use("/category",categoryRoutes)
