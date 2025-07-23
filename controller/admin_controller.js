@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt"
 import adminModel from "../models/admin.js"
+import userModel from "../models/user.js"
 
 export const login = async(req,res)=>{
     const { email, password } = req.body
@@ -31,4 +32,24 @@ export const logout = async(req,res)=>{
             return res.status(404).send({message:"logout successfull"})
         }
     })
+}
+
+export const userstatus =async(req,res)=>{
+    const id=req.params.id;
+    try{
+        const data=await userModel.findByIdAndUpdate(id,{
+            status:req.body.status
+        })
+        if(!data)
+        {
+            return res.status(404).json({message:"user not found"})
+        }
+        else
+        {
+            return res.status(200).json({message:"status updated successfully"})
+        }
+    }
+    catch(err){
+        return res.status(400).send({message:"Internal server error"})
+    }
 }

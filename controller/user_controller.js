@@ -83,7 +83,7 @@ export const logout = async(req,res)=>{
         }
         else
         {
-            return res.status(404).send({message:"logout successfull"})
+            return res.status(200).send({message:"logout successfull"})
         }
     })
 }
