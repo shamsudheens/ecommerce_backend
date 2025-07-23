@@ -1,6 +1,6 @@
 import express from "express"
 import multer from "multer"
-import{addProduct,showProduct,editProduct,deleteProduct} from "../controller/product_controller.js"
+import{addProduct,showProduct,editProduct,deleteProduct,showAllProduct} from "../controller/product_controller.js"
 
 const router=express.Router()
 
@@ -23,6 +23,7 @@ const upload = multer({
 }).single('image')
 
 router.get("/showProduct/:id",showProduct)
+router.get("/showAllProduct",showAllProduct)
 
 router.use("/",(req,res,next)=>{
     if(req.session.adminid)next()

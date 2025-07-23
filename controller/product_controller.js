@@ -72,3 +72,19 @@ export const deleteProduct = async(req,res)=>{
         return res.status(400).json({message:"Internal Server error"})
     }
 }
+
+
+export const showAllProduct = async(req,res)=>{
+    try{
+        const data= await productModel.find({},{category:0,__v:0,_id:0})
+        if(!data)
+        {
+            return res.json({message:"Products are empty"})
+        }
+        return res.json(data)
+    }
+    catch(err){
+        res.status(500).json({message:"internal sever error"})
+        console.log(err);
+    }
+}
