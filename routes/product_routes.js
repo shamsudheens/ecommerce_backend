@@ -22,20 +22,21 @@ const upload = multer({
     storage: storage
 }).single('image')
 
-
-router.post("/addProduct",upload,addProduct)
-
-router.put("/editProduct/:id",editProduct)
-router.delete("/deleteProduct/:id",deleteProduct)
-
 router.get("/showProduct/:id",showProduct)
+
 router.use("/",(req,res,next)=>{
-    if(req.session.userid)next()
+    if(req.session.adminid)next()
     else
     {
         return res.status(404).json({message:"Access denied"})
     }
 })
-router.get("/showProduct/:id",showProduct)
+
+router.post("/addProduct",upload,addProduct)
+router.put("/editProduct/:id",editProduct)
+router.delete("/deleteProduct/:id",deleteProduct)
+
+
+
 
 export default router

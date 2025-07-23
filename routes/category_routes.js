@@ -4,20 +4,20 @@ import { addCategory,showCategory,editCategory,deleteCategory } from "../control
 
 const router=express.Router()
 
-
-
-router.post("/addCategory",addCategory)
-router.put("/editCategory/:id",editCategory)
-router.delete("/deleteCategory/:id",deleteCategory)
-
 router.get("/showCategory/:id",showCategory)
+
+
 router.use("/",(req,res,next)=>{
-    if(req.session.userid)next()
+    if(req.session.adminid)next()
     else
     {
         return res.status(404).json({message:"Access denied"})
     }
 })
+router.post("/addCategory",addCategory)
+router.put("/editCategory/:id",editCategory)
+router.delete("/deleteCategory/:id",deleteCategory)
+
 
 
 export default router

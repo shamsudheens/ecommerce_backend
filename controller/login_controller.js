@@ -14,13 +14,15 @@ export const login = async(req,res)=>{
         if(!match){
             return res.json({message:"incorrect password"})
         }
-        req.session.userid=user._id;
+        
         if(user.role==true)
         {
+            req.session.adminid=user._id;
             return res.json({message:"welcome admin...",type:"admin"})
         }
         if(user.role==false)
         {
+            req.session.userid=user._id;
             if(user.status=="active")
                 return res.json({message:"welcome user...",type:"user"})
             else
