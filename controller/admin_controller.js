@@ -25,11 +25,11 @@ export const logout = async(req,res)=>{
     req.session.destroy((err)=>{
         if(err)
         {
-            return res.status(404).send({message:"logout failed"})
+            return res.status(404).json({message:"logout failed"})
         }
         else
         {
-            return res.status(404).send({message:"logout successfull"})
+            return res.status(404).json({message:"logout successfull"})
         }
     })
 }
@@ -50,6 +50,6 @@ export const userstatus =async(req,res)=>{
         }
     }
     catch(err){
-        return res.status(400).send({message:"Internal server error"})
+        return res.status(400).json({message:"Internal server error"})
     }
 }

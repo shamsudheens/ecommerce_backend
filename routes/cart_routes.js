@@ -1,6 +1,6 @@
 import express from "express"
 
-import{addToCart} from "../controller/cart_controller.js"
+import{addToCart,showCart} from "../controller/cart_controller.js"
 
 const router=express.Router()
 
@@ -11,5 +11,6 @@ router.use("/",(req,res,next)=>{
 })
 
 router.post("/addToCart",addToCart)
+router.get("/showCart",showCart)
 
 export default router
