@@ -19,7 +19,7 @@ const productschema= new schema({
         require:true
     },
     price:{
-        type:String,
+        type:Number,
         require:true
     },
     image:{

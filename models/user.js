@@ -7,7 +7,7 @@ const userschema = new schema({
         require:true
     },
     phone:{
-        type:String,
+        type:Number,
         require:true
     },
     email:{
@@ -17,10 +17,6 @@ const userschema = new schema({
     password:{
         type:String,
         require:true
-    },
-    role:{
-        type:Boolean,
-        default:false,
     },
     status:{
         type:String,
