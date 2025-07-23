@@ -5,7 +5,7 @@ import loginRoutes from "./routes/login_routes.js"
 import userRoutes from "./routes/user_routes.js"
 import categoryRoutes from "./routes/category_routes.js"
 import productRoutes from "./routes/product_routes.js"
-// import cartRoutes from "./routes/cart_routes.js"
+import cartRoutes from "./routes/cart_routes.js"
 import MongoStore from "connect-mongo"
 import session from "express-session"
 import { ServerClosedEvent } from "mongodb"
@@ -35,4 +35,4 @@ app.use("/login",loginRoutes)
 app.use("/user",userRoutes)
 app.use("/product",productRoutes)
 app.use("/category",categoryRoutes)
-// app.use("/cart",cartRoutes)
+app.use("/cart",cartRoutes)

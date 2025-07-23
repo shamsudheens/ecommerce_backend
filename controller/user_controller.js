@@ -30,78 +30,77 @@ export const signup = async (req, res) => {
             name, phone, email, password: hashedPassword, image: req.filename
         })
         await user.save()
-        req.session.userid=user._id;
-        res.status(200).json({ message: "Submitted succesfully", success: true })
+        req.session.userid = user._id;
+        res.status(x200).json({ message: "Submitted succesfully", success: true })
     }
     catch (err) {
         res.json({ message: err.message })
     }
 }
 
-export const getUserById = async (req,res)=>{
-    try{
-        const userdata= await userModel.findById(req.params.id,{password:0,role:0,status:0,__v:0,_id:0})
-        if(!userdata)
-        {
-            return res.json({message:"user not found"})
+export const getUserById = async (req, res) => {
+    try {
+        const userdata = await userModel.findById(req.params.id, { password: 0, role: 0, status: 0, __v: 0, _id: 0 })
+        if (!userdata) {
+            return res.json({ message: "user not found" })
         }
         return res.json(userdata)
     }
-    catch(err){
-        res.status(500).json({message:"internal sever error"})
+    catch (err) {
+        res.status(500).json({ message: "internal sever error" })
         console.log(err);
     }
 }
 
-export const editUser = async (req,res)=>{
-    try{
-        const { name, phone, email, password ,image} = req.body;
-        const data= await userModel.findByIdAndUpdate(req.params.id,{
+export const editUser = async (req, res) => {
+    try {
+        const { name, phone, email, password, image } = req.body;
+        const data = await userModel.findByIdAndUpdate(req.params.id, {
             name,
             email,
             phone,
             password,
-            image:req.filename
+            image: req.filename
         })
-        if(!data)
-        {
-            return res.status(404).json({message:"user not found"})
+        if (!data) {
+            return res.status(404).json({ message: "user not found" })
         }
-        return res.status(200).json({message:"user updated successfully"})
+        return res.status(200).json({ message: "user updated successfully" })
     }
-    catch(err)
-    {
-        return res.status(400).json({message:"error occured while update"})
+    catch (err) {
+        return res.status(500).json({ message: "error occured while update" })
     }
 }
 
-export const logout = async(req,res)=>{
-    req.session.destroy((err)=>{
-        if(err)
-        {
-            return res.status(404).send({message:"logout failed"})
+export const logout = async (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(404).send({ message: "logout failed" })
         }
-        else
-        {
-            return res.status(200).send({message:"logout successfull"})
+        else {
+            return res.status(200).send({ message: "logout successfull" })
         }
     })
 }
 
-export const deleteUser = async(req,res)=>{
-    try{
-        const data =await userModel.findByIdAndDelete(req.params.id)
-        if(!data)
-        {
-            return res.status(404).json({message:"user not found"})
+export const deleteUser = async (req, res) => {
+    try {
+        if (req.session.userid == req.params.id) {
+            const data = await userModel.findByIdAndDelete(req.params.id)
+            if (!data) {
+                return res.status(404).json({ message: "user not found" })
+            }
+            else {
+                req.session.destroy()
+                return res.status(200).json({ message: "user deleted successfully" })
+            }
         }
         else
         {
-            return res.status(200).json({message:"user deleted successfully"})
+            return res.status(400).send("User cannot be deleted")
         }
     }
-    catch(err)
-    {
-        return res.status(400).json({message:"Internal Server error"})
+    catch (err) {
+        return res.status(500).json({ message: "Internal Server error" })
     }
 }
