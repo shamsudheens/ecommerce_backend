@@ -10,7 +10,7 @@ router.post("/addCategory",addCategory)
 router.put("/editCategory/:id",editCategory)
 router.delete("/deleteCategory/:id",deleteCategory)
 
-
+router.get("/showCategory/:id",showCategory)
 router.use("/",(req,res,next)=>{
     if(req.session.userid)next()
     else
@@ -19,6 +19,5 @@ router.use("/",(req,res,next)=>{
     }
 })
 
-router.get("/showCategory/:id",showCategory)
 
 export default router

@@ -28,6 +28,7 @@ router.post("/addProduct",upload,addProduct)
 router.put("/editProduct/:id",editProduct)
 router.delete("/deleteProduct/:id",deleteProduct)
 
+router.get("/showProduct/:id",showProduct)
 router.use("/",(req,res,next)=>{
     if(req.session.userid)next()
     else
