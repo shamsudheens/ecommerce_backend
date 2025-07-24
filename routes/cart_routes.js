@@ -1,6 +1,6 @@
 import express from "express"
 
-import{addToCart,showCart,editCart} from "../controller/cart_controller.js"
+import{addToCart,showCart,editCart,deleteCart} from "../controller/cart_controller.js"
 
 const router=express.Router()
 
@@ -13,5 +13,6 @@ router.use("/",(req,res,next)=>{
 router.post("/addToCart",addToCart)
 router.get("/showCart",showCart)
 router.put("/editCart",editCart)
+router.delete("/deleteCart",deleteCart)
 
 export default router

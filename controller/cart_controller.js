@@ -87,17 +87,17 @@ export const showCart = async (req, res) => {
 
 export const editCart = async (req, res) => {
     const { productId, quantity } = req.body;
-    
+
     try {
         const userid = req.session.userid
         let data = await cartModel.findOne({ userId: userid })
         if (data) {
             let productIndex = data.items.findIndex(i => i.productId == productId)
-            if (productIndex>-1) {
+            if (productIndex > -1) {
                 let productItem = data.items[productIndex]
                 productItem.quantity = quantity;
                 data.items[productIndex] = productItem
-                await cartModel.updateOne({userId:userid},
+                await cartModel.updateOne({ userId: userid },
                     data
                 )
                 return res.status(200).json({ message: "cart updated successfully" })
@@ -106,13 +106,34 @@ export const editCart = async (req, res) => {
                 return res.status(400).json({ message: "Invalid Product Id" })
             }
         }
-        else
-        {
-            return res.status(404).json({message:"Cart not found"})
+        else {
+            return res.status(404).json({ message: "Cart not found" })
         }
     }
     catch (err) {
         console.log(err);
         return res.status(500).json({ message: "internal server error" })
+    }
+}
+
+
+export const deleteCart = async (req, res) => {
+    const userid = req.session.userid
+    try {
+        const data = await cartModel.findOne({ userId: userid })
+        {
+            if (data) {
+                await cartModel.deleteOne({ userId: userid })
+                return res.status(200).json({ message: "Cart Deleted successfully" })
+            }
+            else {
+                return res.status(404).json({ message: "No cart Found" })
+            }
+        }
+    }
+    catch (err) {
+        console.log(err);
+        
+        return res.status(400).json({ message: "Internal Server Error" })
     }
 }
