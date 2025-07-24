@@ -91,7 +91,25 @@ export const showOrder = async (req, res) => {
     }
     catch (err) {
         console.log(err);
-        
+
+        return res.status(500).json({ message: "Internal server error" })
+    }
+}
+
+
+export const cancelOrder = async (req, res) => {
+    try {
+        const data = await orderModel.findByIdAndDelete({ _id: req.params.id })
+        if (data) {
+            return res.status(200).json({message:"Order cancelled successfully"})
+        }
+        else {
+            return res.status(404).json({ message: "Order not found" })
+        }
+    }
+    catch (err) {
+        console.log(err);
+
         return res.status(500).json({ message: "Internal server error" })
     }
 }
