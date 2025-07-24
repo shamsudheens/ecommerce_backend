@@ -47,3 +47,24 @@ export const createOrder = async (req, res) => {
         return res.status(500).json({message:"Internal server error"})
     }
 }
+
+export const paymentStatus = async(req,res)=>{
+    const id= req.params.id;
+    try{
+        const data=await orderModel.findByIdAndUpdate(id,{
+            paymentStatus:req.body.paymentStatus
+        })
+        if(data)
+        {
+            return res.status(200).json({message:"Payment status updated successfully"})
+        }
+        else
+        {
+            return res.status(404).json({message:"Order not found"})
+        }
+    }
+    catch(err)
+    {
+        return res.status(500).json({message:"Internal server error"})
+    }
+}
