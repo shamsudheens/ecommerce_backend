@@ -68,3 +68,22 @@ export const paymentStatus = async(req,res)=>{
         return res.status(500).json({message:"Internal server error"})
     }
 }
+
+
+export const showAllOrders = async(req,res)=>{
+    try{
+        const data= await orderModel.find()
+        if(data)
+        {
+            return res.status(200).json(data)
+        }
+        else
+        {
+            return res.status(404).json({message:"Orders are empty"})
+        }
+    }
+    catch(err)
+    {
+            return res.status(500).json({message:"Internal server error"})
+    }
+}
