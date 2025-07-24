@@ -1,11 +1,11 @@
 import express from "express"
 
-import { addCategory,showCategory,editCategory,deleteCategory } from "../controller/category_controller.js"
+import { addCategory,showCategory,editCategory,deleteCategory, showAllCategory } from "../controller/category_controller.js"
 
 const router=express.Router()
 
 router.get("/showCategory/:id",showCategory)
-
+router.get("/showAllCategory",showAllCategory)
 
 router.use("/",(req,res,next)=>{
     if(req.session.adminid)next()
@@ -17,6 +17,7 @@ router.use("/",(req,res,next)=>{
 router.post("/addCategory",addCategory)
 router.put("/editCategory/:id",editCategory)
 router.delete("/deleteCategory/:id",deleteCategory)
+
 
 
 

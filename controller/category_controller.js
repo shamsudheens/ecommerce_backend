@@ -63,3 +63,18 @@ export const deleteCategory = async (req, res) => {
         return res.status(400).json({ message: "Internal server error" })
     }
 }
+
+export const showAllCategory = async(req,res)=>{
+    try{
+        const data= await categoryModel.find({},{__v:0,_id:0})
+        if(!data)
+        {
+            return res.json({message:"categories are empty"})
+        }
+        return res.json(data)
+    }
+    catch(err){
+        res.status(500).json({message:"internal sever error"})
+        console.log(err);
+    }
+}
