@@ -78,3 +78,20 @@ export const showAllOrders = async (req, res) => {
         return res.status(500).json({ message: "Internal server error" })
     }
 }
+
+export const showOrder = async (req, res) => {
+    try {
+        const data = await orderModel.findById({ _id: req.params.id })
+        if (data) {
+            return res.status(200).json(data)
+        }
+        else {
+            return res.status(404).json({ message: "Order not found" })
+        }
+    }
+    catch (err) {
+        console.log(err);
+        
+        return res.status(500).json({ message: "Internal server error" })
+    }
+}
