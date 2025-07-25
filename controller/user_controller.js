@@ -73,15 +73,15 @@ export const editUser = async (req, res) => {
 }
 
 export const logout = async (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            return res.status(404).send({ message: "logout failed" })
-        }
-        else {
-            return res.status(200).send({ message: "logout successfull" })
-        }
-    })
+    req.session.userid=null
+    if (req.session.userid !== null) {
+        return res.status(404).json({ message: "logout failed" })
+    }
+    else {
+        return res.status(200).json({ message: "logout successfull" })
+    }
 }
+
 
 export const deleteUser = async (req, res) => {
     try {
@@ -95,9 +95,8 @@ export const deleteUser = async (req, res) => {
                 return res.status(200).json({ message: "user deleted successfully" })
             }
         }
-        else
-        {
-            return res.status(400).send("User cannot be deleted")
+        else {
+            return res.status(400).json("User cannot be deleted")
         }
     }
     catch (err) {
