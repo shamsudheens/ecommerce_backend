@@ -26,7 +26,7 @@ router.use("/",(req,res,next)=>{
     if(req.session.userid)next()
     else
     {
-        return res.status(404).json({message:"Access denied"})
+        return res.status(403).json({message:"Access denied"})
     }
 })
 router.get("/logout",logout)

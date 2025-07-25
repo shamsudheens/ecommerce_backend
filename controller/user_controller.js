@@ -31,7 +31,7 @@ export const signup = async (req, res) => {
         })
         await user.save()
         req.session.userid = user._id;
-        res.status(x200).json({ message: "Submitted succesfully", success: true })
+        res.status(200).json({ message: "Submitted succesfully", success: true ,data:user })
     }
     catch (err) {
         res.json({ message: err.message })
@@ -40,7 +40,7 @@ export const signup = async (req, res) => {
 
 export const getUserById = async (req, res) => {
     try {
-        const userdata = await userModel.findById(req.params.id, { password: 0, role: 0, status: 0, __v: 0, _id: 0 })
+        const userdata = await userModel.findById(req.params.id, { password: 0, role: 0, status: 0, __v: 0})
         if (!userdata) {
             return res.json({ message: "user not found" })
         }
@@ -65,7 +65,7 @@ export const editUser = async (req, res) => {
         if (!data) {
             return res.status(404).json({ message: "user not found" })
         }
-        return res.status(200).json({ message: "user updated successfully" })
+        return res.status(200).json({ message: "user updated successfully" ,data:data})
     }
     catch (err) {
         return res.status(500).json({ message: "error occured while update" })

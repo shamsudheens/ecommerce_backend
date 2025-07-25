@@ -8,7 +8,7 @@ export const addCategory = async (req, res) => {
         const { name, description } = req.body;
         const category = new categoryModel({ name, description })
         await category.save()
-        res.status(200).json({ message: "Submitted succesfully", success: true })
+        res.status(200).json({ message: "Submitted succesfully", success: true,data:category })
     }
     catch (err) {
         res.json({ message: err.message })
@@ -17,7 +17,7 @@ export const addCategory = async (req, res) => {
 
 export const showCategory = async (req, res) => {
     try {
-        const data = await categoryModel.findById(req.params.id, { _id: 0, __v: 0 })
+        const data = await categoryModel.findById(req.params.id, { __v: 0 })
         if (!data) {
             return res.json({ message: "category not found" })
         }
@@ -39,7 +39,7 @@ export const editCategory = async (req, res) => {
         if (!data) {
             return res.status(404).json({ message: "category not found" })
         }
-        return res.status(200).json({ message: "category updated successfully" })
+        return res.status(200).json({ message: "category updated successfully",data:data })
     }
     catch (err) {
         console.log(err);
@@ -66,7 +66,7 @@ export const deleteCategory = async (req, res) => {
 
 export const showAllCategory = async(req,res)=>{
     try{
-        const data= await categoryModel.find({},{__v:0,_id:0})
+        const data= await categoryModel.find({},{__v:0})
         if(!data)
         {
             return res.json({message:"categories are empty"})

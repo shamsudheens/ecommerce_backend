@@ -10,7 +10,7 @@ export const addProduct = async(req,res)=>{
             }
         )
         await product.save()
-        return res.status(200).send({message:"product added successfully",success:true})
+        return res.status(200).send({message:"product added successfully",success:true,data:product})
     }
     catch(err){
         res.json({ message: err.message })
@@ -19,7 +19,7 @@ export const addProduct = async(req,res)=>{
 
 export const showProduct = async(req,res)=>{
     try{
-        const data= await productModel.findById(req.params.id,{category:0,__v:0,_id:0})
+        const data= await productModel.findById(req.params.id,{category:0,__v:0})
         if(!data)
         {
             return res.json({message:"product not found"})
@@ -44,7 +44,7 @@ export const editProduct = async(req,res)=>{
         }
         else
         {
-            return res.status(200).json({message:"Product updated successfully"})
+            return res.status(200).json({message:"Product updated successfully",data:product})
         }
     }
     catch(err)
@@ -76,7 +76,7 @@ export const deleteProduct = async(req,res)=>{
 
 export const showAllProduct = async(req,res)=>{
     try{
-        const data= await productModel.find({},{category:0,__v:0,_id:0})
+        const data= await productModel.find({},{category:0,__v:0})
         if(!data)
         {
             return res.status(404).json({message:"Products are empty"})

@@ -44,7 +44,7 @@ export const userstatus = async (req, res) => {
             return res.status(404).json({ message: "user not found" })
         }
         else {
-            return res.status(200).json({ message: "status updated successfully" })
+            return res.status(200).json({ message: "status updated successfully",data:data })
         }
     }
     catch (err) {
@@ -62,12 +62,29 @@ export const shippingstatus = async (req, res) => {
             return res.status(404).json({ message: "order not found" })
         }
         else {
-            return res.status(200).json({ message: "shipping status updated successfully" })
+            return res.status(200).json({ message: "shipping status updated successfully",data:data })
         }
     }
     catch (err) {
         console.log(err);
 
         return res.status(400).json({ message: "Internal server error" })
+    }
+}
+
+export const showAllUsers = async(req,res)=>{
+    try{
+        const data= await userModel.find({},{__v:0,password:0})
+        if(!data)
+        {
+            return res.status(404).json({message:"No users found"})
+        }
+        else
+        {
+            return res.status(200).json(data)
+        }
+    }
+    catch(err){
+        return res.status(500).json({message:"internal server error"})
     }
 }

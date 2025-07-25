@@ -75,6 +75,7 @@ export const showCart = async (req, res) => {
         }
 
         const grandTotal = cart.reduce((sum, item) => sum + item.subtotal, 0);
+        
 
         return res.status(200).json({ items: cart, total: grandTotal });
 
@@ -86,7 +87,6 @@ export const showCart = async (req, res) => {
 
 export const editCart = async (req, res) => {
     const { productId, quantity } = req.body;
-
     try {
         const userid = req.session.userid
         let data = await cartModel.findOne({ userId: userid })
@@ -99,7 +99,7 @@ export const editCart = async (req, res) => {
                 await cartModel.updateOne({ userId: userid },
                     data
                 )
-                return res.status(200).json({ message: "cart updated successfully" })
+                return res.status(200).json({ message: "cart updated successfully",data:data })
             }
             else {
                 return res.status(400).json({ message: "Invalid Product Id" })
@@ -136,3 +136,6 @@ export const deleteCart = async (req, res) => {
         return res.status(400).json({ message: "Internal Server Error" })
     }
 }
+
+
+// updates branch=> push => updateseeen main branchilott pull request vidnm

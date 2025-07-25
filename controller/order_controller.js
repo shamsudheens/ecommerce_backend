@@ -36,7 +36,7 @@ export const createOrder = async (req, res) => {
 
             await cartModel.findOneAndDelete({ userId: userid })
 
-            return res.status(200).json({ message: "Order Placed Successfully" })
+            return res.status(200).json({ message: "Order Placed Successfully" , data:newOrder})
         }
     }
     catch (err) {
@@ -52,7 +52,7 @@ export const paymentStatus = async (req, res) => {
             paymentStatus: req.body.paymentStatus
         })
         if (data) {
-            return res.status(200).json({ message: "Payment status updated successfully" })
+            return res.status(200).json({ message: "Payment status updated successfully",data:data })
         }
         else {
             return res.status(404).json({ message: "Order not found" })
