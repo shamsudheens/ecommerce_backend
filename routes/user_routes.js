@@ -1,5 +1,6 @@
 import express from "express"
 import { signup,getUserById,editUser,logout,deleteUser } from "../controller/user_controller.js"
+import { userMiddleware } from "../middleware/user_middleware.js"
 import multer from "multer"
 const router = express.Router()
 
@@ -22,13 +23,8 @@ const upload = multer({
 
 router.post("/signup", upload, signup)
 
-router.use("/",(req,res,next)=>{
-    if(req.session.userid)next()
-    else
-    {
-        return res.status(403).json({message:"Access denied"})
-    }
-})
+router.use(userMiddleware)
+
 router.get("/logout",logout)
 router.get("/:id",getUserById)
 router.put("/:id",upload,editUser)

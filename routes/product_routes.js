@@ -1,7 +1,7 @@
 import express from "express"
 import multer from "multer"
 import{addProduct,showProduct,editProduct,deleteProduct,showAllProduct} from "../controller/product_controller.js"
-
+import { adminMiddleware } from "../middleware/admin_middleware.js"
 const router=express.Router()
 
 
@@ -25,13 +25,7 @@ const upload = multer({
 router.get("/showProduct/:id",showProduct)
 router.get("/showAllProduct",showAllProduct)
 
-router.use("/",(req,res,next)=>{
-    if(req.session.adminid)next()
-    else
-    {
-        return res.status(403).json({message:"Access denied"})
-    }
-})
+router.use(adminMiddleware)
 
 router.post("/addProduct",upload,addProduct)
 router.put("/editProduct/:id",editProduct)
