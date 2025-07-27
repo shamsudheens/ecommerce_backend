@@ -13,3 +13,5 @@ router.get("/showOrder/:id", showOrder)
 router.delete("/cancelOrder/:id", cancelOrder)
 
 export default router
+
+console.log("hello");
