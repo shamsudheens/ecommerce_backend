@@ -8,6 +8,7 @@ import productRoutes from "./routes/product_routes.js"
 import cartRoutes from "./routes/cart_routes.js"
 import orderRoutes from "./routes/order_routes.js"
 import MongoStore from "connect-mongo"
+import cors from "cors"
 import session from "express-session"
 import { ServerClosedEvent } from "mongodb"
 const app = express()
@@ -19,6 +20,13 @@ mongoose.connect(dburl).then(()=>{
 
 app.use(express.static("public"))
 app.use(express.json())
+
+app.use(cors({
+    origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
+    credentials: true
+}
+))
+
 app.use(express.urlencoded({extended:true}))
 app.use(session({
     secret:"hehehe",
