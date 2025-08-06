@@ -32,6 +32,7 @@ app.use(session({
     secret:"hehehe",
     resave:false,
     saveUninitialized:false,
+    cookie: { secure: false },
     store:MongoStore.create({mongoUrl:"mongodb://127.0.0.1:27017/ecommerce_backend"})
 }))
 app.use((req,res,next)=>{
