@@ -31,7 +31,7 @@ export const logout = async (req, res) => {
         return res.status(404).json({ message: "logout failed" })
     }
     else {
-        return res.status(200).json({ message: "logout successfull" })
+        return res.status(200).json({ message: "logout successfull" ,success:true})
     }
 }
 
