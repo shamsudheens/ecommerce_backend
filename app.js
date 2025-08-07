@@ -18,7 +18,7 @@ mongoose.connect(dburl).then(()=>{
     app.listen(3000)
 })
 
-app.use(express.static("public"))
+app.use(express.static("uploads"))
 app.use(express.json())
 
 app.use(cors({
