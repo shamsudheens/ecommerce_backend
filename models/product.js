@@ -12,7 +12,8 @@ const productschema= new schema({
     },
     category:{
         type:mongoose.Schema.Types.ObjectId,
-        require:true
+        require:true,
+        ref:'categories'
     },
     description:{
         type:String,
