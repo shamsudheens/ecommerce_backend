@@ -55,7 +55,7 @@ export const deleteCategory = async (req, res) => {
             return res.status(404).json({ message: "category not found" })
         }
         else {
-            return res.status(200).json({ message: "category and  associated products are deleted" })
+            return res.status(200).json({ message: "category and  associated products are deleted" ,success:true })
         }
     }
     catch (err) {
