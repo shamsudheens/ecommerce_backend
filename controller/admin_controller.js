@@ -46,7 +46,7 @@ export const userstatus = async (req, res) => {
             return res.status(404).json({ message: "user not found" })
         }
         else {
-            return res.status(200).json({ message: "status updated successfully",data:data })
+            return res.status(200).json({ message: "status updated successfully",data:data,success:true })
         }
     }
     catch (err) {
