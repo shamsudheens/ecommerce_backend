@@ -36,7 +36,7 @@ export const createOrder = async (req, res) => {
 
             await cartModel.findOneAndDelete({ userId: userid })
 
-            return res.status(200).json({ message: "Order Placed Successfully" , data:newOrder})
+            return res.status(200).json({ message: "Order Placed Successfully", data: newOrder })
         }
     }
     catch (err) {
@@ -52,7 +52,7 @@ export const paymentStatus = async (req, res) => {
             paymentStatus: req.body.paymentStatus
         })
         if (data) {
-            return res.status(200).json({ message: "Payment status updated successfully",data:data })
+            return res.status(200).json({ message: "Payment status updated successfully", data: data })
         }
         else {
             return res.status(404).json({ message: "Order not found" })
@@ -66,7 +66,7 @@ export const paymentStatus = async (req, res) => {
 
 export const showAllOrders = async (req, res) => {
     try {
-        const data = await orderModel.find()
+        const data = await orderModel.find().populate("userId", "name").populate("items.productId", "name");
         if (data) {
             return res.status(200).json(data)
         }
@@ -101,7 +101,7 @@ export const cancelOrder = async (req, res) => {
     try {
         const data = await orderModel.findByIdAndDelete({ _id: req.params.id })
         if (data) {
-            return res.status(200).json({message:"Order cancelled successfully"})
+            return res.status(200).json({ message: "Order cancelled successfully" })
         }
         else {
             return res.status(404).json({ message: "Order not found" })
