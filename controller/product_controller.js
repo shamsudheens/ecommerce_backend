@@ -16,21 +16,6 @@ export const addProduct = async (req, res) => {
         res.json({ message: err.message })
     }
 }
-
-export const showProduct = async (req, res) => {
-    try {
-        const data = await productModel.findById(req.params.id, { category: 0, __v: 0 })
-        if (!data) {
-            return res.json({ message: "product not found" })
-        }
-        return res.json(data)
-    }
-    catch (err) {
-        res.status(500).json({ message: "internal sever error" })
-        console.log(err);
-    }
-}
-
 export const editProduct = async (req, res) => {
     try {
         const { name, brand, category, price, description } = req.body;
@@ -52,6 +37,21 @@ export const editProduct = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
+export const showProduct = async (req, res) => {
+    try {
+        const data = await productModel.findById(req.params.id, { category: 0, __v: 0 })
+        if (!data) {
+            return res.json({ message: "product not found" })
+        }
+        return res.json(data)
+    }
+    catch (err) {
+        res.status(500).json({ message: "internal sever error" })
+        console.log(err);
+    }
+}
+
 
 
 export const deleteProduct = async (req, res) => {
