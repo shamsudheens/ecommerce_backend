@@ -28,7 +28,7 @@ router.get("/showAllProduct",showAllProduct)
 router.use(adminMiddleware)
 
 router.post("/addProduct",upload,addProduct)
-router.put("/editProduct/:id",editProduct)
+router.put("/editProduct/:id",upload,editProduct)
 router.delete("/deleteProduct/:id",deleteProduct)
 
 
