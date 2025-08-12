@@ -17,7 +17,7 @@ export const login = async (req, res) => {
             return res.json({ message: "incorrect password" })
         }
         req.session.adminid = user._id;
-        return res.json({ message: "welcome Admin..." ,type:true})
+        return res.json({ message: "welcome Admin..." ,type:true,role: "admin"})
     }
     catch (err) {
         res.json({ message: err.message })
