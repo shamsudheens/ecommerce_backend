@@ -6,7 +6,7 @@ export const addProduct = async (req, res) => {
         const { name, brand, category, description, price, image } = req.body;
         const product = new productModel(
             {
-                name, brand, category, description, price, image: req.filename
+                name, brand, category, description, price, image: req.file ? req.file.filename : null
             }
         )
         await product.save()
