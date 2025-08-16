@@ -31,7 +31,7 @@ export const signup = async (req, res) => {
         })
         await user.save()
         req.session.userid = user._id;
-        res.status(200).json({ message: "Submitted succesfully", success: true ,data:user })
+        res.status(200).json({ message: "Submitted succesfully", success: true ,data:user ,id:user._id })
     }
     catch (err) {
         res.json({ message: err.message })

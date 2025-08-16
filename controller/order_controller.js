@@ -36,7 +36,11 @@ export const createOrder = async (req, res) => {
 
             await cartModel.findOneAndDelete({ userId: userid })
 
-            return res.status(200).json({ message: "Order Placed Successfully", data: newOrder })
+            return res.status(200).json({
+                message: "Order Placed Successfully",
+                order: newOrder,
+                success: true
+            });
         }
     }
     catch (err) {
@@ -81,35 +85,60 @@ export const showAllOrders = async (req, res) => {
 
 export const showOrder = async (req, res) => {
     try {
-        const data = await orderModel.findById({ _id: req.params.id })
+        const data = await orderModel
+            .findById(req.params.id)
+            .populate("items.productId", "name image price"); // populate specific fields
+
         if (data) {
-            return res.status(200).json(data)
+            return res.status(200).json(data);
+        } else {
+            return res.status(404).json({ message: "Order not found" });
         }
-        else {
-            return res.status(404).json({ message: "Order not found" })
-        }
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err);
-
-        return res.status(500).json({ message: "Internal server error" })
+        return res.status(500).json({ message: "Internal server error" });
     }
-}
-
+};
 
 export const cancelOrder = async (req, res) => {
     try {
-        const data = await orderModel.findByIdAndDelete({ _id: req.params.id })
-        if (data) {
-            return res.status(200).json({ message: "Order cancelled successfully" })
-        }
-        else {
-            return res.status(404).json({ message: "Order not found" })
-        }
-    }
-    catch (err) {
-        console.log(err);
+        const order = await orderModel.findById(req.params.id);
 
-        return res.status(500).json({ message: "Internal server error" })
+        if (!order) {
+            return res.status(404).json({ message: "Order not found" });
+        }
+
+        if (order.shippingStatus.toLowerCase() !== "pending") {
+            return res.status(400).json({ message: "Only pending orders can be cancelled" });
+        }
+
+        await orderModel.findByIdAndDelete(req.params.id);
+
+        return res.status(200).json({ message: "Order cancelled successfully" });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Internal server error" });
     }
-}
+};
+
+export const showUserOrders = async (req, res) => {
+    try {
+        if (!req.session.userid) {
+            return res.status(401).json({ message: "Please login to view your orders" });
+        }
+
+        const userOrders = await orderModel
+            .find({ userId: req.session.userid })
+            .populate("items.productId", "name")
+            .sort({ createdAt: -1 }); 
+
+        if (userOrders.length === 0) {
+            return res.status(404).json({ message: "You have no orders yet" });
+        }
+
+        return res.status(200).json(userOrders);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+};

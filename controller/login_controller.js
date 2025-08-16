@@ -15,7 +15,7 @@ export const login = async (req, res) => {
         }
         req.session.userid = user._id;
         if (user.status == "active")
-            return res.json({ message: "welcome user...", type: "user",id:user._id })
+            return res.json({ message: "welcome user...", type: "user" ,id:user._id })
         else
             return res.json({ message: "your account has not been activated yet" })
     }
