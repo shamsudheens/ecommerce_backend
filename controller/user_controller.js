@@ -31,7 +31,7 @@ export const signup = async (req, res) => {
         })
         await user.save()
         req.session.userid = user._id;
-        res.status(200).json({ message: "Submitted succesfully", success: true ,data:user ,id:user._id })
+        res.status(200).json({ message: "Submitted succesfully", success: true, data: user, id: user._id })
     }
     catch (err) {
         res.json({ message: err.message })
@@ -40,7 +40,7 @@ export const signup = async (req, res) => {
 
 export const getUserById = async (req, res) => {
     try {
-        const userdata = await userModel.findById(req.params.id, { password: 0, role: 0, status: 0, __v: 0})
+        const userdata = await userModel.findById(req.params.id, { password: 0, role: 0, status: 0, __v: 0 })
         if (!userdata) {
             return res.json({ message: "user not found" })
         }
@@ -54,31 +54,47 @@ export const getUserById = async (req, res) => {
 
 export const editUser = async (req, res) => {
     try {
-        const { name, phone, email, password, image } = req.body;
-        const data = await userModel.findByIdAndUpdate(req.params.id, {
+        const { name, phone, email, password } = req.body;
+
+        const updateData = {
             name,
             email,
             phone,
             password,
-            image: req.filename
-        })
-        if (!data) {
-            return res.status(404).json({ message: "user not found" })
+        };
+
+        if (req.filename) {
+            updateData.image = req.filename;
         }
-        return res.status(200).json({ message: "user updated successfully" ,data:data})
+
+        const data = await userModel.findByIdAndUpdate(
+            req.params.id,
+            updateData,
+            { new: true }
+        );
+
+        if (!data) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        return res.status(200).json({
+            message: "User updated successfully",
+            data
+        });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Error occurred while updating" });
     }
-    catch (err) {
-        return res.status(500).json({ message: "error occured while update" })
-    }
-}
+};
+
 
 export const logout = async (req, res) => {
-    req.session.userid=null
+    req.session.userid = null
     if (req.session.userid !== null) {
         return res.status(404).json({ message: "logout failed" })
     }
     else {
-        return res.status(200).json({ message: "logout successfull" ,success:true})
+        return res.status(200).json({ message: "logout successfull", success: true })
     }
 }
 
