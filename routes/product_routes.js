@@ -1,6 +1,6 @@
 import express from "express"
 import multer from "multer"
-import{addProduct,showProduct,editProduct,deleteProduct,showAllProduct} from "../controller/product_controller.js"
+import{addProduct,showProduct,editProduct,deleteProduct,showAllProduct,searchProduct} from "../controller/product_controller.js"
 import { adminMiddleware } from "../middleware/admin_middleware.js"
 const router=express.Router()
 
@@ -24,6 +24,7 @@ const upload = multer({
 
 router.get("/showProduct/:id",showProduct)
 router.get("/showAllProduct",showAllProduct)
+router.get("/search/:query",searchProduct)
 
 router.use(adminMiddleware)
 
