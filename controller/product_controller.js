@@ -82,3 +82,13 @@ export const showAllProduct = async (req, res) => {
         return res.status(500).json({ message: "Internal server error" });
     }
 };
+
+export const searchProduct = async (req, res) => {
+    try {
+        const regex = new RegExp(req.params.query, "i"); 
+        const products = await productModel.find({ name: regex });
+        res.json(products);
+    } catch (err) {
+        res.status(500).json({ error: "Search failed" });
+    }
+}
