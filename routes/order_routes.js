@@ -5,9 +5,9 @@ import { adminMiddleware } from "../middleware/admin_middleware.js"
 const router = express.Router()
 
 router.get("/showAllOrders",adminMiddleware, showAllOrders)
-router.patch("/paymentStatus/:id",adminMiddleware, paymentStatus)
 
 router.use(userMiddleware)
+router.patch("/paymentStatus/:id",userMiddleware, paymentStatus)
 router.get("/userOrders", showUserOrders); 
 router.post("/createOrder", createOrder)
 router.get("/showOrder/:id", showOrder)
