@@ -55,12 +55,13 @@ export const getUserById = async (req, res) => {
 export const editUser = async (req, res) => {
     try {
         const { name, phone, email, password } = req.body;
-
+        const salt = 10;
+        const hashedPassword = await bcrypt.hash(password, salt)
         const updateData = {
             name,
             email,
             phone,
-            password,
+            hashedPassword,
         };
 
         if (req.filename) {

@@ -130,7 +130,6 @@ export const showUserOrders = async (req, res) => {
         const userOrders = await orderModel
             .find({ userId: req.session.userid })
             .populate("items.productId", "name")
-            .sort({ createdAt: -1 }); 
 
         if (userOrders.length === 0) {
             return res.status(404).json({ message: "You have no orders yet" });
