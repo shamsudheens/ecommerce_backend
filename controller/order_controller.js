@@ -70,7 +70,7 @@ export const paymentStatus = async (req, res) => {
 
 export const showAllOrders = async (req, res) => {
     try {
-        const data = await orderModel.find().populate("userId", "name").populate("items.productId", "name");
+        const data = await orderModel.find().populate("userId", "name").populate("items.productId", "name").sort({createdAt:-1});
         if (data) {
             return res.status(200).json(data)
         }
@@ -87,7 +87,7 @@ export const showOrder = async (req, res) => {
     try {
         const data = await orderModel
             .findById(req.params.id)
-            .populate("items.productId", "name image price"); // populate specific fields
+            .populate("items.productId", "name image price");
 
         if (data) {
             return res.status(200).json(data);
