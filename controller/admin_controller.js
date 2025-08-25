@@ -57,22 +57,34 @@ export const userstatus = async (req, res) => {
 export const shippingstatus = async (req, res) => {
     const id = req.params.id;
     try {
-        const data = await orderModel.findByIdAndUpdate(id, {
-            shippingStatus: req.body.shippingStatus
-        })
-        if (!data) {
-            return res.status(404).json({ message: "order not found" })
-        }
-        else {
-            return res.status(200).json({ message: "shipping status updated successfully",data:data })
-        }
-    }
-    catch (err) {
-        console.log(err);
+        const existingOrder = await orderModel.findById(id);
 
-        return res.status(400).json({ message: "Internal server error" })
+        if (!existingOrder) {
+            return res.status(404).json({ message: "Order not found" });
+        }
+
+        if (existingOrder.shippingStatus === "Delivered" || existingOrder.shippingStatus === "Cancelled") {
+            return res.status(400).json({ 
+                message: `Cannot change shipping status. The order is already ${existingOrder.shippingStatus}.` 
+            });
+        }
+
+        const updatedOrder = await orderModel.findByIdAndUpdate(
+            id,
+            { shippingStatus: req.body.shippingStatus },
+            { new: true }
+        );
+
+        return res.status(200).json({ 
+            message: "Shipping status updated successfully", 
+            data: updatedOrder 
+        });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Internal server error" });
     }
-}
+};
+
 
 export const showAllUsers = async(req,res)=>{
     try{
