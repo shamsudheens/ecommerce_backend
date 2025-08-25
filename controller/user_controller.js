@@ -54,14 +54,28 @@ export const getUserById = async (req, res) => {
 
 export const editUser = async (req, res) => {
     try {
-        const { name, phone, email, password } = req.body;
-        const salt = 10;
-        const hashedPassword = await bcrypt.hash(password, salt)
+        const { name, phone, email, oldPassword, password } = req.body;
+
+        const user = await userModel.findById(req.params.id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        let passwordToUpdate = user.password;
+
+        if (oldPassword && password) {
+            const isMatch = await bcrypt.compare(oldPassword, user.password);
+            if (!isMatch) {
+                return res.status(400).json({ message: "Old password is incorrect" });
+            }
+            passwordToUpdate = await bcrypt.hash(password, 10);
+        }
+
         const updateData = {
-            name,
-            email,
-            phone,
-            hashedPassword,
+            name: name || user.name,
+            email: email || user.email,
+            phone: phone || user.phone,
+            password: passwordToUpdate,
         };
 
         if (req.filename) {
@@ -74,19 +88,17 @@ export const editUser = async (req, res) => {
             { new: true }
         );
 
-        if (!data) {
-            return res.status(404).json({ message: "User not found" });
-        }
-
         return res.status(200).json({
             message: "User updated successfully",
             data
         });
+
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: "Error occurred while updating" });
     }
 };
+
 
 
 export const logout = async (req, res) => {
