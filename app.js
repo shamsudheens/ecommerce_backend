@@ -12,7 +12,7 @@ import cors from "cors"
 import session from "express-session"
 import { ServerClosedEvent } from "mongodb"
 const app = express()
-const dburl="mongodb://127.0.0.1:27017/ecommerce_backend"
+const dburl="mongodb+srv://chechu:chechu@chechu.km04jpt.mongodb.net/chechu?retryWrites=true&w=majority&appName=chechu"
 mongoose.connect(dburl).then(()=>{
     console.log("db connected");
     app.listen(3000)
@@ -23,7 +23,7 @@ app.use(express.json())
 
 
 app.use(cors({
-    origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
+    origin: ["http://localhost:5173", "http://16.171.28.234"],
     credentials: true
 }
 ))
@@ -34,7 +34,7 @@ app.use(session({
     resave:false,
     saveUninitialized:false,
     cookie: { secure: false },
-    store:MongoStore.create({mongoUrl:"mongodb://127.0.0.1:27017/ecommerce_backend"})
+    store:MongoStore.create({mongoUrl:"mongodb+srv://chechu:chechu@chechu.km04jpt.mongodb.net/chechu?retryWrites=true&w=majority&appName=chechu"})
 }))
 app.use((req,res,next)=>{
     res.locals.message=req.session.message
