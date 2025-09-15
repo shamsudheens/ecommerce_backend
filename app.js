@@ -44,7 +44,7 @@ app.use((req,res,next)=>{
 app.use("/admin",adminRoutes)
 app.use("/login",loginRoutes)
 app.use("/user",userRoutes)
-app.use("/product",productRoutes)
+app.use("/api/product",productRoutes)
 app.use("/category",categoryRoutes)
 app.use("/cart",cartRoutes)
 app.use("/order",orderRoutes)
