@@ -22,6 +22,8 @@ app.use(express.static("uploads"))
 app.use(express.json())
 
 
+
+
 app.use(cors({
     origin: ["http://localhost:5173", "http://16.171.28.234"],
     credentials: true
