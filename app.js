@@ -13,6 +13,7 @@ import session from "express-session"
 import { ServerClosedEvent } from "mongodb"
 
 const app = express()
+
 const dburl="mongodb+srv://chechu:chechu@chechu.km04jpt.mongodb.net/chechu?retryWrites=true&w=majority&appName=chechu"
 mongoose.connect(dburl).then(()=>{
     console.log("db connected");
