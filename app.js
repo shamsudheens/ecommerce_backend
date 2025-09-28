@@ -39,6 +39,7 @@ app.use(session({
     cookie: { secure: false },
     store:MongoStore.create({mongoUrl:"mongodb+srv://chechu:chechu@chechu.km04jpt.mongodb.net/chechu?retryWrites=true&w=majority&appName=chechu"})
 }))
+
 app.use((req,res,next)=>{
     res.locals.message=req.session.message
     delete req.session.message
