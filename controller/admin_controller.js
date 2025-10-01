@@ -4,8 +4,7 @@ import userModel from "../models/user.js"
 import orderModel from "../models/order.js"
 
 export const login = async (req, res) => {
-    console.log(req.body);
-    
+    console.log(req.body)
     const { email, password } = req.body
     try {
         const user = await adminModel.findOne({ email })
