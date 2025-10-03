@@ -45,6 +45,8 @@ app.use((req,res,next)=>{
     delete req.session.message
     next()
 })
+
+
 app.use("/api/admin",adminRoutes)
 app.use("/api/login",loginRoutes)
 app.use("/api/user",userRoutes)
