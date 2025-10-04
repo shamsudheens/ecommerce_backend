@@ -46,7 +46,6 @@ app.use((req,res,next)=>{
     next()
 })
 
-
 app.use("/api/admin",adminRoutes)
 app.use("/api/login",loginRoutes)
 app.use("/api/user",userRoutes)
