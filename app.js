@@ -53,4 +53,3 @@ app.use("/api/product",productRoutes)
 app.use("/api/category",categoryRoutes)
 app.use("/api/cart",cartRoutes)
 app.use("/api/order",orderRoutes)
-
